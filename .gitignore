@@ -1,0 +1,14 @@
+# Derlenmiş C/C++ ve Assembly Çıktıları
+*.o
+*.out
+fastinvert
+
+# Orijinal ve Çıktı Görüntüleri (Boyutu şişirmemek için)
+bmps/
+output/
+*.bmp
+
+# IDE ve İşletim Sistemi Dosyaları
+.vscode/
+.idea/
+.DS_Store

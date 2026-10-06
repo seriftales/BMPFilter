@@ -8,35 +8,40 @@
 // Assembly fonksiyon bildirimi
 extern void filter(unsigned char* data, int size);
 
-// C tabanlı filtre fonksiyonu (Karsılastırma için)
+// C tabanlı filtre fonksiyonu (Karşılaştırma için)
 void filter_c(unsigned char* data, int size) {
     for (int i = 0; i < size; i++) {
         data[i] = 255 - data[i];
     }
 }
 
-int main() {
-    char fileName[256];
-    char inputPath[512] = "/home/kaan/BMPFilter/bmps/"; 
+// Ana program
+int main(int argc, char *argv[]) {
+    
+    char inputPath[512] ;
     char outputPath[512];
     struct timespec start, end;
     double time_c, time_asm;
 
-    printf("=========================================\n");
-    printf("        BMP FILTRELEME & BENCHMARK       \n");
-    printf("=========================================\n");
+    printf("==========================================\n");
+    printf("        BMP FILTRELEME & BENCHMARKING       \n");
+    printf("==========================================\n");
     
-    printf("Dosya adini giriniz: ");
-    if (scanf("%255s", fileName) != 1) return 1;
+    if (argc != 2) {
+        printf("HATA: Eksik parametre girdiniz!\n");
+        printf("Doğru Kullanım: %s <dosya_adi.bmp>\n", argv[0]);
+        printf("Not: İşlenecek dosya 'bmps/' klasöründe olmalıdır.\n");
+        return 1;
+    }
 
     // Yol birleştirme
-    strcat(inputPath, fileName);
-    sprintf(outputPath, "/home/kaan/BMPFilter/output/output_%s", fileName);
+    snprintf(inputPath, sizeof(inputPath), "bmps/%s", argv[1]);
+    snprintf(outputPath, sizeof(outputPath), "output/output_%s", argv[1]);
 
     // 1. DOSYA ACMA
     FILE *input = fopen(inputPath, "rb");
     if (!input) {
-        perror("\nHata: Kaynak dosya acilamadi");
+        perror("\nHata: Kaynak dosya açılamadı");
         return 1;
     }
 
@@ -65,7 +70,7 @@ int main() {
     printf("-----------------------------------------\n");
 
     // --- HIZ TESTI: C VERSIYONU ---
-    printf("[1/2] C Filtresi calistiriliyor...");
+    printf("[1/2] C Filtresi Çalıstırılıyor...");
     fflush(stdout);
     clock_gettime(CLOCK_MONOTONIC, &start);
     filter_c(pixels, size);
@@ -77,7 +82,7 @@ int main() {
     filter_c(pixels, size);
 
     // --- HIZ TESTI: ASSEMBLY VERSIYONU ---
-    printf("[2/2] Assembly Filtresi calistiriliyor...");
+    printf("[2/2] Assembly Filtresi Çalıstırılıyor...");
     fflush(stdout);
     clock_gettime(CLOCK_MONOTONIC, &start);
     filter(pixels, size);
@@ -92,9 +97,9 @@ int main() {
     
     if (time_asm < time_c) {
         double fark = ((time_c - time_asm) / time_c) * 100;
-        printf(">> SONUC: Assembly, C'den %.2f%% daha hizli!\n", fark);
+        printf(">> SONUÇ: Assembly, C'den %.2f%% daha hızlı!\n", fark);
     } else {
-        printf(">> SONUC: C derleyicisi cok iyi optimize etmis!\n");
+        printf(">> SONUÇ: C derleyicisi çok iyi optimize etmiş!\n");
     }
     printf("-----------------------------------------\n");
 
@@ -104,7 +109,7 @@ int main() {
         fwrite(header, 1, 54, output);
         fwrite(pixels, 1, size, output);
         fclose(output);
-        printf("[OK] Yeni dosya olusturuldu: %s\n", outputPath);
+        printf("[OK] Yeni dosya oluşturuldu: %s\n", outputPath);
     }
 
     free(pixels);
