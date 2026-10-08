@@ -5,13 +5,13 @@ BMPFilter, 24-bit sıkıştırılmamış BMP görüntülerine "Negatif" filtresi
 Sistem, piksel matrisini işlerken aynı algoritmanın modern bir C derleyicisi  ile yazılmış hali ile x86-64 Assembly komut setleri arasındaki işlemci yürütme sürelerini kıyaslar. 
 Ölçümler `CLOCK_MONOTONIC` kullanılarak nanosaniye hassasiyetinde yapılır.
 
-## 🚀 Özellikler
+##  Özellikler
 
 * **Hibrit Mimari:** C tarafı dosya okuma/yazma ve bellek tahsisini üstlenirken; ağır işlem döngüleri  x86-64 NASM mimarisinde çalıştırılır.
 * **Düşük Seviye Bellek Yönetimi:** C üzerinden tahsis edilen piksel matrisine, Assembly tarafında doğrudan bellek adresleri üzerinden müdahale edilir.
 * **Performans Kıyaslama:** Aynı veri seti her iki dilde de işlenerek donanımdaki yürütme süresi farkı hesaplanır ve yüzdelik oranla terminale raporlanır.
 
-## 🛠️ Kurulum ve Derleme (Linux)
+##  Kurulum ve Derleme (Linux)
 
 Not:Projenin derlenebilmesi için sisteminizde GCC ve NASM kurulu olmalıdır.
 
@@ -37,7 +37,7 @@ sudo apt install gcc nasm -y
     gcc main.c filter.o -o bmpfilter
    ```
 
-## ⚙️ Çalıştırma 
+##  Çalıştırma 
 
 Uygulamayı başlatmak için terminalde derlenmiş dosyayı çalıştırın:
 
@@ -51,7 +51,7 @@ Uygulama sizden işlenecek dosyanın adını isteyecektir (Örn: test.bmp).bmp t
 İşlem bittiğinde sonuçlar terminale basılır ve filtrelenmiş yeni dosya output/ dizinine kaydedilir.
 
 
-## 📁 Dizin Yapısı
+##  Dizin Yapısı
 ```text
 BMPFilter/
 ├── bmps/                # İşlenecek orijinal 24-bit BMP dosyaları 
